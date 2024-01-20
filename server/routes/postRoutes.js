@@ -8,4 +8,31 @@ dotenv.config();
 
 const router = express.Router();
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// GET ALL POSTS
+router.route("/").get(async () => {});
+
+// CREATE A POST
+router.route("/").post(async () => {
+  try {
+    const { prompt, name, photo } = req.body;
+    const photoUrl = await cloudinary.uploader.upload(photo);
+
+    const newPost = await Post.create({
+      name,
+      prompt,
+      photo: photoUrl.photo,
+    });
+
+    res.status(201).json({ success: true, data: newPost });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error });
+  }
+});
+
 export default router;
