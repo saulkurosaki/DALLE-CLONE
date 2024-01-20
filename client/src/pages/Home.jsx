@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { Loader, Card, FormField, RenderCards } from "../components";
+import { Loader, FormField, RenderCards } from "../components";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
